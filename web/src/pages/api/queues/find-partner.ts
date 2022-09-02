@@ -41,14 +41,30 @@ export default api({
 
 			const sorted = tokens.sort((a, b) => b.percentage - a.percentage);
 
-			const pair = getAPair(sorted);
-			console.log('Pair returned from get a pair:', pair);
+			// TODO: loop through, find pair, remove from queue, start again until no more pairs, been more than 5 seconds, or queue is empty
+			const start = Date.now();
+			while (Date.now() - start < 5000 && sorted.length > 1) {
+				const pair = getAPair(sorted);
 
-			// Looping through sorted tokens to find pair with closest percentage
+				if (pair !== undefined) {
+					// TODO: remove from redis queue
 
-			const channel = await ctx.hop.channels.create(ChannelType.PRIVATE);
+					// TODO: start a channel, put users in and force them to be friends
+					const channel = await ctx.hop.channels.create(ChannelType.PRIVATE);
+					await channel.subscribeTokens(pair.map(p => p.token));
+					console.log('Created channel:', channel.id, 'with users: ', pair);
+					// I think this is how this works but idk lol
 
-			await channel.subscribeTokens([]);
+					pair.forEach(member => {
+						sorted.splice(sorted.indexOf(member), 1);
+					});
+				}
+			}
+			console.log(
+				`Ran through queue enough times for this request due to ${
+					sorted.length > 2 ? 'time expiring' : 'not enough members in queue'
+				}, returning`,
+			);
 
 			return;
 		}
@@ -87,14 +103,20 @@ type QueueMember = {token: `leap_token_${string}`; percentage: number};
 
 function getAPair(arr: QueueMember[]): [QueueMember, QueueMember] | undefined {
 	if (arr.length < 2) {
+		console.log('Queue length is less than 2, returning undefined');
 		return undefined;
 	}
 
-	for (let i = 1; i < arr.length; i++) {
+	if (arr.length === 2) {
+		console.log('Queue length is 2, returning pair if valid');
+		return isValidPair(arr[0], arr[1]) ? [arr[0], arr[1]] : undefined;
+	}
+
+	for (let i = 1; i < arr.length - 1; i++) {
 		const pair = getClosest(arr[0], arr[i], arr[i + 1]);
 
 		if (pair !== undefined) {
-			console.log('Found pair:', pair);
+			console.log('Found pair within queue:', pair);
 			return pair;
 		}
 	}
