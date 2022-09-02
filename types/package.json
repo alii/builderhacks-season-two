@@ -1,0 +1,5 @@
+{
+	"name": "types",
+	"packageManager": "yarn@3.2.3",
+	"types": "./index.ts"
+}

@@ -17,11 +17,12 @@ __metadata:
   resolution: "@longdistance/web@workspace:web"
   dependencies:
     "@onehop/client": ^1.3.13
-    "@onehop/js": ^1.3.14
+    "@onehop/js": ^1.3.16
     "@onehop/react": ^1.3.13
     "@types/node": ^18.7.14
     "@types/react": ^18.0.18
     "@types/react-dom": ^18.0.6
+    "@upstash/redis": ^1.13.0
     autoprefixer: ^10.4.8
     envsafe: ^2.0.3
     lowcake: ^1.0.5
@@ -192,7 +193,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@onehop/js@npm:^1.2.8, @onehop/js@npm:^1.3.14":
+"@onehop/js@npm:^1.2.8":
   version: 1.3.14
   resolution: "@onehop/js@npm:1.3.14"
   dependencies:
@@ -200,6 +201,17 @@ __metadata:
     isomorphic-fetch: ^3.0.0
     zod: ^3.18.0
   checksum: eb7d4fe84030254c4a653a9789e663c819199039a572bdd36b43c6f0a66394974b408fb2d263c54288c2caef9fdc39b7f9ef123bc219a0854d756ca0c7a06c9a
+  languageName: node
+  linkType: hard
+
+"@onehop/js@npm:^1.3.16":
+  version: 1.3.16
+  resolution: "@onehop/js@npm:1.3.16"
+  dependencies:
+    "@onehop/json-methods": ^1.1.2
+    cross-fetch: ^3.1.5
+    zod: ^3.18.0
+  checksum: bb0e5c691acd976f6a5e2c62045ba08539788078e6b5892b68e4df75a2d25ea38c3fa9c802cdda5b2192eb542924eb7e8e358f1541033432f0b0b8758ea99e54
   languageName: node
   linkType: hard
 
@@ -294,6 +306,15 @@ __metadata:
   version: 0.16.2
   resolution: "@types/scheduler@npm:0.16.2"
   checksum: b6b4dcfeae6deba2e06a70941860fb1435730576d3689225a421280b7742318d1548b3d22c1f66ab68e414f346a9542f29240bc955b6332c5b11e561077583bc
+  languageName: node
+  linkType: hard
+
+"@upstash/redis@npm:^1.13.0":
+  version: 1.13.0
+  resolution: "@upstash/redis@npm:1.13.0"
+  dependencies:
+    isomorphic-fetch: ^3.0.0
+  checksum: e44ff1a256c6b80788c4bcdce9d62c49a553515a2e513ebf1768898a7f72ee77801c49addcbb8c1c16f58b71aadc468be55160de0a9d8d5920b6d599979cacec
   languageName: node
   linkType: hard
 
@@ -576,6 +597,15 @@ __metadata:
   version: 1.1.0
   resolution: "console-control-strings@npm:1.1.0"
   checksum: 8755d76787f94e6cf79ce4666f0c5519906d7f5b02d4b884cf41e11dcd759ed69c57da0670afd9236d229a46e0f9cf519db0cd829c6dca820bb5a5c3def584ed
+  languageName: node
+  linkType: hard
+
+"cross-fetch@npm:^3.1.5":
+  version: 3.1.5
+  resolution: "cross-fetch@npm:3.1.5"
+  dependencies:
+    node-fetch: 2.6.7
+  checksum: f6b8c6ee3ef993ace6277fd789c71b6acf1b504fd5f5c7128df4ef2f125a429e29cd62dc8c127523f04a5f2fa4771ed80e3f3d9695617f441425045f505cf3bb
   languageName: node
   linkType: hard
 
@@ -1357,7 +1387,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"node-fetch@npm:^2.6.1":
+"node-fetch@npm:2.6.7, node-fetch@npm:^2.6.1":
   version: 2.6.7
   resolution: "node-fetch@npm:2.6.7"
   dependencies:
@@ -1962,6 +1992,12 @@ __metadata:
   checksum: 8c4aa6a3c5a754bf76aefc38026134180c053b7bd2f81338cb5e5ebf96fefa0f417bff221592bf801077f5bf990562f6264fecbc42cd3309b33872cb6fc3b113
   languageName: node
   linkType: hard
+
+"types@workspace:types":
+  version: 0.0.0-use.local
+  resolution: "types@workspace:types"
+  languageName: unknown
+  linkType: soft
 
 "typescript@npm:^4.8.2":
   version: 4.8.2

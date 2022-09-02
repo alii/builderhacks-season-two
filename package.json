@@ -6,7 +6,8 @@
 	"packageManager": "yarn@3.2.3",
 	"workspaces": {
 		"packages": [
-			"./web"
+			"./web",
+			"./types"
 		]
 	},
 	"devDependencies": {
