@@ -1,8 +1,3 @@
-import Internet from '../components/internet';
-
-export default () => (
-	<div>
-		<h1>hi</h1>
-		<Internet />
-	</div>
-);
+export default function IndexPage() {
+	return <div>hi</div>;
+}

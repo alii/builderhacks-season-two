@@ -23,12 +23,16 @@ __metadata:
     "@types/react": ^18.0.18
     "@types/react-dom": ^18.0.6
     autoprefixer: ^10.4.8
+    envsafe: ^2.0.3
+    lowcake: ^1.0.5
     next: ^12.2.5
+    nextkit: ^3.4.3
     postcss: ^8.4.16
     react: ^18.2.0
     react-dom: ^18.2.0
     tailwindcss: ^3.1.8
     typescript: ^4.8.2
+    zod: ^3.18.0
   languageName: unknown
   linkType: soft
 
@@ -681,6 +685,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"envsafe@npm:^2.0.3":
+  version: 2.0.3
+  resolution: "envsafe@npm:2.0.3"
+  checksum: e2a9935d97aebfac6993d0ecaa5e8725d8fd40c2848d7021969cb8c223d4fea5940700c24df1afc7ae56cf5dbefe9d7ec6bff78bb6ec23f993ab4ddaf076b2a1
+  languageName: node
+  linkType: hard
+
 "err-code@npm:^2.0.2":
   version: 2.0.3
   resolution: "err-code@npm:2.0.3"
@@ -1070,6 +1081,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"lowcake@npm:^1.0.5":
+  version: 1.0.5
+  resolution: "lowcake@npm:1.0.5"
+  checksum: 6da118ae785afc3f221bd76dca971f3cd9957c018ee2808d48603c7e35403daf78379125680eaa745142e282945b711c6625d23886ca7beee300276a27f7ff17
+  languageName: node
+  linkType: hard
+
 "lru-cache@npm:^6.0.0":
   version: 6.0.0
   resolution: "lru-cache@npm:6.0.0"
@@ -1327,6 +1345,15 @@ __metadata:
   bin:
     next: dist/bin/next
   checksum: e8fcbd93d74fda81640fd174a9d380f22db404d3ce0893730db3db806317ae18c86d1dbb502e63e47c92fb21a93812de62639c2f1204330cb569fdac4d3d0573
+  languageName: node
+  linkType: hard
+
+"nextkit@npm:^3.4.3":
+  version: 3.4.3
+  resolution: "nextkit@npm:3.4.3"
+  peerDependencies:
+    next: "*"
+  checksum: 4d4177ae0049450898efe95c2e31f0fcf75b54de04240984650b3a7f52dc16e5e0d1811687b2717c96e86146077138fa708a465ff5db3906ed0620a120b761ad
   languageName: node
   linkType: hard
 
