@@ -7,7 +7,7 @@ import {redis} from './redis';
 import {serialize} from 'cookie';
 
 export const RedisKeys = {
-	FindPartnerQueue = 'find-partner-queue',
+	FindPartnerQueue: 'find-partner-queue',
 	TalkingTo: (id: Id<'leap_token'>) => `talking-to:${id}`,
 };
 
@@ -23,10 +23,24 @@ export const api = createAPI({
 						// Session is probably gone by then
 						ex: 60 * 60 * 24 * 7,
 					});
+
+					await redis.set(RedisKeys.TalkingTo(talkingTo), token, {
+						// Session is probably gone by then
+						ex: 60 * 60 * 24 * 7,
+					});
 				},
 
 				async get(token: Id<'leap_token'>) {
 					return redis.get<Id<'leap_token'>>(RedisKeys.TalkingTo(token));
+				},
+
+				async remove(token: Id<'leap_token'>) {
+					const talkingTo = await this.get(token);
+
+					if (talkingTo) {
+						await redis.del(RedisKeys.TalkingTo(token));
+						await redis.del(RedisKeys.TalkingTo(talkingTo));
+					}
 				},
 			},
 

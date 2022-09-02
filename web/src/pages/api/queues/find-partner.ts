@@ -62,6 +62,8 @@ export default api({
 					pair[1].token,
 				);
 
+				await ctx.talkingTo.set(pair[0].token, pair[1].token);
+
 				for (const {token} of pair) {
 					await ctx.utils.hop.publishDirectMessage(
 						token,
