@@ -2,9 +2,8 @@ import {api} from '../../../server/nextkit';
 import {z} from 'zod';
 import {env} from '../../../server/env';
 import {NextkitError} from 'nextkit';
-import {ChannelType} from '@onehop/js';
 import urlcat from 'es-urlcat';
-import {isValidPair} from '../../../utils/pairs';
+import {getAPair} from '../../../utils/pairs';
 
 const schema = z
 	.object({
@@ -115,38 +114,3 @@ export default api({
 		await ctx.lowcake.dequeue(env.LOWCAKE_QUEUE_ID, body.job);
 	},
 });
-
-export type QueueMember = {token: `leap_token_${string}`; percentage: number};
-
-function getAPair(arr: QueueMember[]): [QueueMember, QueueMember] | undefined {
-	if (arr.length < 2) {
-		console.log('Queue length is less than 2, returning undefined');
-		return undefined;
-	}
-
-	if (arr.length === 2) {
-		console.log('Queue length is 2, returning pair if valid');
-		return isValidPair(arr[0], arr[1]) ? [arr[0], arr[1]] : undefined;
-	}
-
-	for (let i = 1; i < arr.length - 1; i++) {
-		const pair = getClosest(arr[0], arr[i], arr[i + 1]);
-
-		if (pair !== undefined) {
-			console.log('Found pair within queue:', pair);
-			return pair;
-		}
-	}
-}
-
-function getClosest(
-	lower: QueueMember,
-	mid: QueueMember,
-	higher: QueueMember,
-): [QueueMember, QueueMember] | undefined {
-	if (mid.percentage - lower.percentage < higher.percentage - mid.percentage) {
-		return isValidPair(lower, mid) ? [lower, mid] : undefined;
-	} else {
-		return isValidPair(mid, higher) ? [lower, mid] : undefined;
-	}
-}
