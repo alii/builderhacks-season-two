@@ -48,7 +48,14 @@ export const api = createAPI({
 						{withScores: true},
 					);
 
-					return chunk(range, 2) as Array<[Id<'leap_token'>, number]>;
+					const entries = chunk(range, 2) as Array<[Id<'leap_token'>, number]>;
+
+					return entries.map(([token, percentage]) => {
+						return {
+							token,
+							percentage,
+						};
+					});
 				},
 
 				async addLeapTokenToFindPartnerQueue(

@@ -2,8 +2,6 @@ import {api} from '../../../server/nextkit';
 import {z} from 'zod';
 import {env} from '../../../server/env';
 import {NextkitError} from 'nextkit';
-import {random} from '../../../utils/arrays';
-import {ChannelEvents} from 'types';
 import {ChannelType} from '@onehop/js';
 
 const schema = z
@@ -32,11 +30,12 @@ export default api({
 
 			const tokens = await ctx.redis.getFindPartnerQueue();
 
-			// TODO: Find match
+			const sorted = tokens.sort((a, b) => b.percentage - a.percentage);
 
+			// TODO: Find match
 			const channel = await ctx.hop.channels.create(ChannelType.PRIVATE);
 
-			await ctx.utils.hop.publishDirectMessage(match, 'PARTNER_FOUND');
+			await channel.subscribeTokens([]);
 		}
 
 		//
