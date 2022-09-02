@@ -34,13 +34,9 @@ export const api = createAPI({
 					return redis.get<Id<'leap_token'>>(RedisKeys.TalkingTo(token));
 				},
 
-				async remove(token: Id<'leap_token'>) {
-					const talkingTo = await this.get(token);
-
-					if (talkingTo) {
-						await redis.del(RedisKeys.TalkingTo(token));
-						await redis.del(RedisKeys.TalkingTo(talkingTo));
-					}
+				async remove(token: Id<'leap_token'>, talkingTo: Id<'leap_token'>) {
+					await redis.del(RedisKeys.TalkingTo(token));
+					await redis.del(RedisKeys.TalkingTo(talkingTo));
 				},
 			},
 

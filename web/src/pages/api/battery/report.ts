@@ -20,29 +20,31 @@ export default api({
 
 		// Batteries are now invalid, so we should
 		// disconnect this pair
-		if (
-			!isValidPair(
-				{
-					token: talkingTo,
-					percentage: await ctx.utils.hop.getTokenBatteryPercentage(talkingTo),
-				},
-				{
-					token: token.id,
-					percentage: body.percentage,
-				},
-			)
-		) {
-			await ctx.utils.hop.publishDirectMessage(
-				talkingTo,
-				'PAIR_BATTERY_INVALID',
-				null,
-			);
+		const valid = isValidPair(
+			{
+				token: talkingTo,
+				percentage: await ctx.utils.hop.getTokenBatteryPercentage(talkingTo),
+			},
+			{
+				token: token.id,
+				percentage: body.percentage,
+			},
+		);
 
-			await ctx.utils.hop.publishDirectMessage(
-				token.id,
-				'PAIR_BATTERY_INVALID',
-				null,
-			);
+		if (!valid) {
+			await Promise.allSettled([
+				ctx.utils.hop.publishDirectMessage(
+					talkingTo,
+					'PAIR_BATTERY_INVALID',
+					null,
+				),
+				ctx.utils.hop.publishDirectMessage(
+					token.id,
+					'PAIR_BATTERY_INVALID',
+					null,
+				),
+				ctx.talkingTo.remove(token.id, talkingTo),
+			]);
 
 			return;
 		}
