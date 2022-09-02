@@ -39,17 +39,23 @@ export default api({
 
 			const tokens = await ctx.redis.getFindPartnerQueue();
 
-			const sorted = tokens.sort((a, b) => b.percentage - a.percentage);
+			// randomly switch between sorting from low to high and high to low so that users at one end don't get screwed with loading times
+			const sorted = tokens.sort((a, b) =>
+				Math.floor(Math.random() * 2) === 1
+					? b.percentage - a.percentage
+					: a.percentage - b.percentage,
+			);
 
-			// TODO: loop through, find pair, remove from queue, start again until no more pairs, been more than 5 seconds, or queue is empty
-			const start = Date.now();
-			while (Date.now() - start < 5000 && sorted.length > 1) {
+			for (let loops = 0; loops < Math.min(sorted.length - 1, 10); loops++) {
+				if (sorted.length < 2) {
+					break;
+				}
+
 				const pair = getAPair(sorted);
 
 				if (pair !== undefined) {
 					// TODO: remove from redis queue
 
-					// TODO: start a channel, put users in and force them to be friends
 					const channel = await ctx.hop.channels.create(ChannelType.PRIVATE);
 					await channel.subscribeTokens(pair.map(p => p.token));
 					console.log('Created channel:', channel.id, 'with users: ', pair);
@@ -60,6 +66,7 @@ export default api({
 					});
 				}
 			}
+
 			console.log(
 				`Ran through queue enough times for this request due to ${
 					sorted.length > 2 ? 'time expiring' : 'not enough members in queue'
@@ -120,10 +127,6 @@ function getAPair(arr: QueueMember[]): [QueueMember, QueueMember] | undefined {
 			return pair;
 		}
 	}
-
-	const [lower, mid, higher] = arr;
-
-	return getClosest(lower, mid, higher);
 }
 
 function getClosest(
