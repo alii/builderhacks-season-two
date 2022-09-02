@@ -8,5 +8,8 @@
 		"packages": [
 			"./web"
 		]
+	},
+	"devDependencies": {
+		"prisma": "^4.3.1"
 	}
 }
