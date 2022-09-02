@@ -2,36 +2,53 @@ import {Id, validateId} from '@onehop/js';
 import createAPI, {NextkitError} from 'nextkit';
 import {chunk} from '../utils/arrays';
 import {hop, publishDirectMessage, publishMessage} from './hop';
+import {lowcake} from './lowcake';
 import {redis} from './redis';
+import {serialize} from 'cookie';
 
 export enum RedisKeys {
 	FindPartnerQueue = 'find-partner-queue',
 }
 
 export const api = createAPI({
-	async getContext(req) {
+	async getContext(req, res) {
 		return {
 			hop,
+			lowcake,
+
+			async createSession() {
+				const token = await hop.channels.tokens.create({});
+
+				res.setHeader(
+					'Set-Cookie',
+					serialize('session', token.id, {
+						httpOnly: true,
+						path: '/',
+						secure: true,
+						sameSite: req.headers.host === 'localhost:3000' ? 'none' : 'strict',
+					}),
+				);
+			},
+
+			async getToken() {
+				const {token} = req.cookies;
+
+				if (!token) {
+					throw new NextkitError(401, 'Missing session');
+				}
+
+				if (!validateId(token, 'leap_token')) {
+					throw new NextkitError(401, 'Invalid session');
+				}
+
+				return hop.channels.tokens.get(token);
+			},
 
 			utils: {
 				hop: {
 					publishMessage,
 					publishDirectMessage,
 				},
-			},
-
-			getLeapToken() {
-				const token = req.headers.authorization;
-
-				if (!token) {
-					throw new Error('You have not authorized!');
-				}
-
-				if (!validateId(token, 'leap_token')) {
-					throw new NextkitError(401, 'Invalid leap token');
-				}
-
-				return token;
 			},
 
 			redis: {

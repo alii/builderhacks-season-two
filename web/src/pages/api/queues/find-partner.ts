@@ -3,8 +3,7 @@ import {z} from 'zod';
 import {env} from '../../../server/env';
 import {NextkitError} from 'nextkit';
 import {ChannelType} from '@onehop/js';
-
-const PERCENTAGE_RANGE = 5;
+import urlcat from 'es-urlcat';
 
 const schema = z
 	.object({
@@ -13,12 +12,20 @@ const schema = z
 	})
 	.or(
 		z.object({
-			type: z.enum(['enqueue', 'dequeue']),
+			type: z.literal('dequeue'),
+			job: z.string(),
+		}),
+	)
+	.or(
+		z.object({
+			type: z.literal('enqueue'),
 		}),
 	);
 
+type EnqueuePayload = Extract<z.infer<typeof schema>, {type: 'invocate'}>;
+
 export default api({
-	async GET({ctx}) {
+	async GET({ctx, req}) {
 		return ctx.redis.getFindPartnerQueue();
 	},
 
@@ -47,24 +54,45 @@ export default api({
 		}
 
 		if (body.type === 'enqueue') {
-			return;
+			const protocol = req.headers.host === 'localhost:3000' ? 'http' : 'https';
+
+			if (!req.url) {
+				throw new NextkitError(500, 'Missing url');
+			}
+
+			const payload: EnqueuePayload = {
+				type: 'invocate',
+				secret: env.QUEUE_SECRET,
+			};
+
+			const {id} = await ctx.lowcake.enqueue(env.LOWCAKE_QUEUE_ID, {
+				url: urlcat(`${protocol}://${req.headers.host}`, req.url),
+				payload,
+				retry: [],
+				exclusive: true,
+				schedule: {
+					type: 'every',
+					meta: (5 * 1000).toString(),
+				},
+			});
+
+			return id;
 		}
 
-		if (body.type === 'dequeue') {
-			return;
-		}
+		await ctx.lowcake.dequeue(env.LOWCAKE_QUEUE_ID, body.job);
 	},
 });
 
-type queueMember = {token: `leap_token_${string}`; percentage: number};
+type QueueMember = {token: `leap_token_${string}`; percentage: number};
 
-function getAPair(arr: queueMember[]): [queueMember, queueMember] | undefined {
+function getAPair(arr: QueueMember[]): [QueueMember, QueueMember] | undefined {
 	if (arr.length < 2) {
 		return undefined;
 	}
 
 	for (let i = 1; i < arr.length; i++) {
 		const pair = getClosest(arr[0], arr[i], arr[i + 1]);
+
 		if (pair !== undefined) {
 			console.log('Found pair:', pair);
 			return pair;
@@ -77,10 +105,10 @@ function getAPair(arr: queueMember[]): [queueMember, queueMember] | undefined {
 }
 
 function getClosest(
-	lower: queueMember,
-	mid: queueMember,
-	higher: queueMember,
-): [queueMember, queueMember] | undefined {
+	lower: QueueMember,
+	mid: QueueMember,
+	higher: QueueMember,
+): [QueueMember, QueueMember] | undefined {
 	if (mid.percentage - lower.percentage < higher.percentage - mid.percentage) {
 		return isValidPair(lower, mid) ? [lower, mid] : undefined;
 	} else {
@@ -88,6 +116,6 @@ function getClosest(
 	}
 }
 
-function isValidPair(a: queueMember, b: queueMember) {
-	return Math.abs(a.percentage - b.percentage) < PERCENTAGE_RANGE;
+function isValidPair(a: QueueMember, b: QueueMember) {
+	return Math.abs(a.percentage - b.percentage) < env.PERCENTAGE_RANGE;
 }

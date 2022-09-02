@@ -1,5 +1,5 @@
-import {APIAuthentication, getIdPrefix, Id, validateId} from '@onehop/js';
-import {envsafe, str, url, makeValidator, InvalidEnvError} from 'envsafe';
+import {APIAuthentication, Id, validateId} from '@onehop/js';
+import {envsafe, str, url, makeValidator, InvalidEnvError, num} from 'envsafe';
 
 const hopAPIAuthentication = makeValidator<APIAuthentication>(value => {
 	if (!validateId(value, 'ptk')) {
@@ -26,5 +26,15 @@ export const env = envsafe({
 	HOP_API_TOKEN: hopAPIAuthentication(),
 	HOP_PROJECT_ID: hopProjectID({
 		default: 'project_NTAzMjYzNTY5MDg2MjYzMzI',
+	}),
+
+	PERCENTAGE_RANGE: num({
+		desc: 'The range that people can chat within',
+		default: 5,
+	}),
+
+	LOWCAKE_API_KEY: str(),
+	LOWCAKE_QUEUE_ID: str({
+		default: 'queue_ODg3NjIwNjY5NzM3NzM4Mjg',
 	}),
 });

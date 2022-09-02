@@ -8,6 +8,6 @@ const schema = z.object({
 
 export default api({
 	async POST({req, ctx}) {
-		const token = ctx.getLeapToken();
+		const token = await ctx.getToken();
 	},
 });

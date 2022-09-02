@@ -17,15 +17,18 @@ __metadata:
   resolution: "@longdistance/web@workspace:web"
   dependencies:
     "@onehop/client": ^1.3.13
-    "@onehop/js": ^1.3.16
+    "@onehop/js": ^1.3.17
     "@onehop/react": ^1.3.13
+    "@types/cookie": ^0.5.1
     "@types/node": ^18.7.14
     "@types/react": ^18.0.18
     "@types/react-dom": ^18.0.6
     "@upstash/redis": ^1.13.0
     autoprefixer: ^10.4.8
+    cookie: ^0.5.0
     envsafe: ^2.0.3
-    lowcake: ^1.0.5
+    es-urlcat: ^1.0.0
+    lowcake: ^1.0.6
     next: ^12.2.5
     nextkit: ^3.4.3
     postcss: ^8.4.16
@@ -204,14 +207,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@onehop/js@npm:^1.3.16":
-  version: 1.3.16
-  resolution: "@onehop/js@npm:1.3.16"
+"@onehop/js@npm:^1.3.17":
+  version: 1.3.17
+  resolution: "@onehop/js@npm:1.3.17"
   dependencies:
     "@onehop/json-methods": ^1.1.2
     cross-fetch: ^3.1.5
     zod: ^3.18.0
-  checksum: bb0e5c691acd976f6a5e2c62045ba08539788078e6b5892b68e4df75a2d25ea38c3fa9c802cdda5b2192eb542924eb7e8e358f1541033432f0b0b8758ea99e54
+  checksum: 376b324e88f1dcdcb6fb47716d9417387bbf8d2b8258b05522c894bed229e15a94239895700366962079e788040a197a75e346412a8c518af5e1577895366931
   languageName: node
   linkType: hard
 
@@ -265,6 +268,13 @@ __metadata:
   version: 2.0.0
   resolution: "@tootallnate/once@npm:2.0.0"
   checksum: ad87447820dd3f24825d2d947ebc03072b20a42bfc96cbafec16bff8bbda6c1a81fcb0be56d5b21968560c5359a0af4038a68ba150c3e1694fe4c109a063bed8
+  languageName: node
+  linkType: hard
+
+"@types/cookie@npm:^0.5.1":
+  version: 0.5.1
+  resolution: "@types/cookie@npm:0.5.1"
+  checksum: 9a8d60fc84797122bc399d6bd330fe5780dc7aab032321de705049ea925339f74658bfa418de483a625d51858770efef58df633ff2e20f1bdf7fbd74a52847e2
   languageName: node
   linkType: hard
 
@@ -523,6 +533,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"call-bind@npm:^1.0.0":
+  version: 1.0.2
+  resolution: "call-bind@npm:1.0.2"
+  dependencies:
+    function-bind: ^1.1.1
+    get-intrinsic: ^1.0.2
+  checksum: f8e31de9d19988a4b80f3e704788c4a2d6b6f3d17cfec4f57dc29ced450c53a49270dc66bf0fbd693329ee948dd33e6c90a329519aef17474a4d961e8d6426b0
+  languageName: node
+  linkType: hard
+
 "camelcase-css@npm:^2.0.1":
   version: 2.0.1
   resolution: "camelcase-css@npm:2.0.1"
@@ -597,6 +617,13 @@ __metadata:
   version: 1.1.0
   resolution: "console-control-strings@npm:1.1.0"
   checksum: 8755d76787f94e6cf79ce4666f0c5519906d7f5b02d4b884cf41e11dcd759ed69c57da0670afd9236d229a46e0f9cf519db0cd829c6dca820bb5a5c3def584ed
+  languageName: node
+  linkType: hard
+
+"cookie@npm:^0.5.0":
+  version: 0.5.0
+  resolution: "cookie@npm:0.5.0"
+  checksum: 1f4bd2ca5765f8c9689a7e8954183f5332139eb72b6ff783d8947032ec1fdf43109852c178e21a953a30c0dd42257828185be01b49d1eb1a67fd054ca588a180
   languageName: node
   linkType: hard
 
@@ -729,6 +756,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"es-urlcat@npm:^1.0.0":
+  version: 1.0.0
+  resolution: "es-urlcat@npm:1.0.0"
+  dependencies:
+    qs: ^6.9.4
+  checksum: e646f8510f80e11951602178168d2348fcbc39ed12cc80b0c93d592224a4692c155250e136c05cae4f9a4325ba5f991554d94623b2ebbb431d6064119a2acacf
+  languageName: node
+  linkType: hard
+
 "escalade@npm:^3.1.1":
   version: 3.1.1
   resolution: "escalade@npm:3.1.1"
@@ -839,6 +875,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"get-intrinsic@npm:^1.0.2":
+  version: 1.1.2
+  resolution: "get-intrinsic@npm:1.1.2"
+  dependencies:
+    function-bind: ^1.1.1
+    has: ^1.0.3
+    has-symbols: ^1.0.3
+  checksum: 252f45491f2ba88ebf5b38018020c7cc3279de54b1d67ffb70c0cdf1dfa8ab31cd56467b5d117a8b4275b7a4dde91f86766b163a17a850f036528a7b2faafb2b
+  languageName: node
+  linkType: hard
+
 "glob-parent@npm:^5.1.2, glob-parent@npm:~5.1.2":
   version: 5.1.2
   resolution: "glob-parent@npm:5.1.2"
@@ -888,6 +935,13 @@ __metadata:
   version: 4.2.10
   resolution: "graceful-fs@npm:4.2.10"
   checksum: 3f109d70ae123951905d85032ebeae3c2a5a7a997430df00ea30df0e3a6c60cf6689b109654d6fdacd28810a053348c4d14642da1d075049e6be1ba5216218da
+  languageName: node
+  linkType: hard
+
+"has-symbols@npm:^1.0.3":
+  version: 1.0.3
+  resolution: "has-symbols@npm:1.0.3"
+  checksum: a054c40c631c0d5741a8285010a0777ea0c068f99ed43e5d6eb12972da223f8af553a455132fdb0801bdcfa0e0f443c0c03a68d8555aa529b3144b446c3f2410
   languageName: node
   linkType: hard
 
@@ -1111,10 +1165,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"lowcake@npm:^1.0.5":
-  version: 1.0.5
-  resolution: "lowcake@npm:1.0.5"
-  checksum: 6da118ae785afc3f221bd76dca971f3cd9957c018ee2808d48603c7e35403daf78379125680eaa745142e282945b711c6625d23886ca7beee300276a27f7ff17
+"lowcake@npm:^1.0.6":
+  version: 1.0.6
+  resolution: "lowcake@npm:1.0.6"
+  checksum: d7cfab7e3cdf64fc740d670377f31cfb6a32908715ba84c6f4aa4a046a6ce0c885d2f18401573b147480b79032361ae8cbb778c2a309769c88668d30beea2fd2
   languageName: node
   linkType: hard
 
@@ -1472,6 +1526,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"object-inspect@npm:^1.9.0":
+  version: 1.12.2
+  resolution: "object-inspect@npm:1.12.2"
+  checksum: a534fc1b8534284ed71f25ce3a496013b7ea030f3d1b77118f6b7b1713829262be9e6243acbcb3ef8c626e2b64186112cb7f6db74e37b2789b9c789ca23048b2
+  languageName: node
+  linkType: hard
+
 "once@npm:^1.3.0":
   version: 1.4.0
   resolution: "once@npm:1.4.0"
@@ -1655,6 +1716,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"qs@npm:^6.9.4":
+  version: 6.11.0
+  resolution: "qs@npm:6.11.0"
+  dependencies:
+    side-channel: ^1.0.4
+  checksum: 6e1f29dd5385f7488ec74ac7b6c92f4d09a90408882d0c208414a34dd33badc1a621019d4c799a3df15ab9b1d0292f97c1dd71dc7c045e69f81a8064e5af7297
+  languageName: node
+  linkType: hard
+
 "queue-microtask@npm:^1.2.2":
   version: 1.2.3
   resolution: "queue-microtask@npm:1.2.3"
@@ -1817,6 +1887,17 @@ __metadata:
   version: 2.0.0
   resolution: "set-blocking@npm:2.0.0"
   checksum: 6e65a05f7cf7ebdf8b7c75b101e18c0b7e3dff4940d480efed8aad3a36a4005140b660fa1d804cb8bce911cac290441dc728084a30504d3516ac2ff7ad607b02
+  languageName: node
+  linkType: hard
+
+"side-channel@npm:^1.0.4":
+  version: 1.0.4
+  resolution: "side-channel@npm:1.0.4"
+  dependencies:
+    call-bind: ^1.0.0
+    get-intrinsic: ^1.0.2
+    object-inspect: ^1.9.0
+  checksum: 351e41b947079c10bd0858364f32bb3a7379514c399edb64ab3dce683933483fc63fb5e4efe0a15a2e8a7e3c436b6a91736ddb8d8c6591b0460a24bb4a1ee245
   languageName: node
   linkType: hard
 
