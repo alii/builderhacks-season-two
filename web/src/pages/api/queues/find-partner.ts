@@ -54,22 +54,24 @@ export default api({
 
 				const pair = getAPair(sorted);
 
-				if (pair !== undefined) {
-					await ctx.redis.removePairFromPartnerQueue(
-						pair[0].token,
-						pair[1].token,
-					);
-
-					const channel = await ctx.hop.channels.create(ChannelType.PRIVATE);
-					await channel.subscribeTokens(pair.map(p => p.token));
-
-					console.log('Created channel:', channel.id, 'with users: ', pair);
-
-					// I think this is how this works but idk lol
-					pair.forEach(member => {
-						sorted.splice(sorted.indexOf(member), 1);
-					});
+				if (!pair) {
+					continue;
 				}
+
+				await ctx.redis.removePairFromPartnerQueue(
+					pair[0].token,
+					pair[1].token,
+				);
+
+				const channel = await ctx.hop.channels.create(ChannelType.PRIVATE);
+				await channel.subscribeTokens(pair.map(p => p.token));
+
+				console.log('Created channel:', channel.id, 'with users: ', pair);
+
+				// I think this is how this works but idk lol
+				pair.forEach(member => {
+					sorted.splice(sorted.indexOf(member), 1);
+				});
 			}
 
 			console.log(
