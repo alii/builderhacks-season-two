@@ -4,6 +4,7 @@ import {env} from '../../../server/env';
 import {NextkitError} from 'nextkit';
 import {ChannelType} from '@onehop/js';
 import urlcat from 'es-urlcat';
+import {isValidPair} from '../../../utils/pairs';
 
 const schema = z
 	.object({
@@ -47,19 +48,23 @@ export default api({
 				const pair = getAPair(sorted);
 
 				if (pair !== undefined) {
-					// TODO: remove from redis queue
+					await ctx.redis.removePairFromPartnerQueue(
+						pair[0].token,
+						pair[1].token,
+					);
 
-					// TODO: start a channel, put users in and force them to be friends
 					const channel = await ctx.hop.channels.create(ChannelType.PRIVATE);
 					await channel.subscribeTokens(pair.map(p => p.token));
-					console.log('Created channel:', channel.id, 'with users: ', pair);
-					// I think this is how this works but idk lol
 
+					console.log('Created channel:', channel.id, 'with users: ', pair);
+
+					// I think this is how this works but idk lol
 					pair.forEach(member => {
 						sorted.splice(sorted.indexOf(member), 1);
 					});
 				}
 			}
+
 			console.log(
 				`Ran through queue enough times for this request due to ${
 					sorted.length > 2 ? 'time expiring' : 'not enough members in queue'
@@ -99,7 +104,7 @@ export default api({
 	},
 });
 
-type QueueMember = {token: `leap_token_${string}`; percentage: number};
+export type QueueMember = {token: `leap_token_${string}`; percentage: number};
 
 function getAPair(arr: QueueMember[]): [QueueMember, QueueMember] | undefined {
 	if (arr.length < 2) {
@@ -136,8 +141,4 @@ function getClosest(
 	} else {
 		return isValidPair(mid, higher) ? [lower, mid] : undefined;
 	}
-}
-
-function isValidPair(a: QueueMember, b: QueueMember) {
-	return Math.abs(a.percentage - b.percentage) < env.PERCENTAGE_RANGE;
 }

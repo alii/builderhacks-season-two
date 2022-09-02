@@ -17,7 +17,7 @@ __metadata:
   resolution: "@longdistance/web@workspace:web"
   dependencies:
     "@onehop/client": ^1.3.13
-    "@onehop/js": ^1.3.17
+    "@onehop/js": ^1.3.18
     "@onehop/react": ^1.3.13
     "@types/cookie": ^0.5.1
     "@types/node": ^18.7.14
@@ -207,14 +207,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@onehop/js@npm:^1.3.17":
-  version: 1.3.17
-  resolution: "@onehop/js@npm:1.3.17"
+"@onehop/js@npm:^1.3.18":
+  version: 1.3.18
+  resolution: "@onehop/js@npm:1.3.18"
   dependencies:
     "@onehop/json-methods": ^1.1.2
     cross-fetch: ^3.1.5
     zod: ^3.18.0
-  checksum: 376b324e88f1dcdcb6fb47716d9417387bbf8d2b8258b05522c894bed229e15a94239895700366962079e788040a197a75e346412a8c518af5e1577895366931
+  checksum: 8f853aa2991b02fc40da22b9d6b9796e7a7e9bab6d1d91496ba2c84b61a0f4720eca56ea1c67e06f7308fab832c99dff0e60c699bd57fe2608240b998c16607d
   languageName: node
   linkType: hard
 

@@ -6,15 +6,29 @@ import {lowcake} from './lowcake';
 import {redis} from './redis';
 import {serialize} from 'cookie';
 
-export enum RedisKeys {
+export const RedisKeys = {
 	FindPartnerQueue = 'find-partner-queue',
-}
+	TalkingTo: (id: Id<'leap_token'>) => `talking-to:${id}`,
+};
 
 export const api = createAPI({
 	async getContext(req, res) {
 		return {
 			hop,
 			lowcake,
+
+			talkingTo: {
+				async set(token: Id<'leap_token'>, talkingTo: Id<'leap_token'>) {
+					await redis.set(RedisKeys.TalkingTo(token), talkingTo, {
+						// Session is probably gone by then
+						ex: 60 * 60 * 24 * 7,
+					});
+				},
+
+				async get(token: Id<'leap_token'>) {
+					return redis.get<Id<'leap_token'>>(RedisKeys.TalkingTo(token));
+				},
+			},
 
 			async createSession() {
 				const token = await hop.channels.tokens.create({});
@@ -48,12 +62,34 @@ export const api = createAPI({
 				hop: {
 					publishMessage,
 					publishDirectMessage,
+
+					async getTokenBatteryPercentage(token: Id<'leap_token'>) {
+						const {state} = await hop.channels.tokens.get(token);
+
+						return state.lastKnownBattery as number;
+					},
+
+					async setTokenBatteryPercentage(
+						token: Id<'leap_token'>,
+						percentage: number,
+					) {
+						await hop.channels.tokens.setState(token, {
+							lastKnownBattery: percentage,
+						});
+					},
 				},
 			},
 
 			redis: {
 				client: redis,
 				keys: RedisKeys,
+
+				async removePairFromPartnerQueue(
+					token: Id<'leap_token'>,
+					talkingTo: Id<'leap_token'>,
+				) {
+					await redis.zrem(RedisKeys.FindPartnerQueue, token, talkingTo);
+				},
 
 				async findPartnerByPercentage(percentage: number) {
 					const result = await redis.zrange<Array<Id<'leap_token'>>>(
