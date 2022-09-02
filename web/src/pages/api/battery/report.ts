@@ -18,6 +18,8 @@ export default api({
 			throw new NextkitError(400, 'You are not in a conversation right now!');
 		}
 
+		// Batteries are now invalid, so we should
+		// disconnect this pair
 		if (
 			!isValidPair(
 				{
@@ -44,6 +46,8 @@ export default api({
 
 			return;
 		}
+
+		await ctx.utils.hop.setTokenBatteryPercentage(token.id, body.percentage);
 
 		await ctx.utils.hop.publishDirectMessage(
 			talkingTo,
