@@ -36,7 +36,7 @@ export default api({
 
 			// TODO: loop through, find pair, remove from queue, start again until no more pairs, been more than 5 seconds, or queue is empty
 			const start = Date.now();
-			while (Date.now() - start < 5000 && sorted.length > 2) {
+			while (Date.now() - start < 5000 && sorted.length > 1) {
 				const pair = getAPair(sorted);
 
 				if (pair !== undefined) {
@@ -45,6 +45,7 @@ export default api({
 					// TODO: start a channel, put users in and force them to be friends
 					const channel = await ctx.hop.channels.create(ChannelType.PRIVATE);
 					await channel.subscribeTokens(pair.map(p => p.token));
+					console.log('Created channel:', channel.id, 'with users: ', pair);
 					// I think this is how this works but idk lol
 
 					pair.forEach(member => {
