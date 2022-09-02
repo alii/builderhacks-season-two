@@ -34,7 +34,11 @@ export default api({
 
 			const sorted = tokens.sort((a, b) => b.percentage - a.percentage);
 
-			// TODO: Find match
+			const pair = getAPair(sorted);
+			console.log('Pair returned from get a pair:', pair);
+
+			// Looping through sorted tokens to find pair with closest percentage
+
 			const channel = await ctx.hop.channels.create(ChannelType.PRIVATE);
 
 			await channel.subscribeTokens([]);
@@ -45,6 +49,24 @@ export default api({
 });
 
 type queueMember = {token: `leap_token_${string}`; percentage: number};
+
+function getAPair(arr: queueMember[]): [queueMember, queueMember] | undefined {
+	if (arr.length < 2) {
+		return undefined;
+	}
+
+	for (let i = 1; i < arr.length; i++) {
+		const pair = getClosest(arr[0], arr[i], arr[i + 1]);
+		if (pair !== undefined) {
+			console.log('Found pair:', pair);
+			return pair;
+		}
+	}
+
+	const [lower, mid, higher] = arr;
+
+	return getClosest(lower, mid, higher);
+}
 
 function getClosest(
 	lower: queueMember,
