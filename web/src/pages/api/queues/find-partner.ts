@@ -34,14 +34,29 @@ export default api({
 
 			const sorted = tokens.sort((a, b) => b.percentage - a.percentage);
 
-			const pair = getAPair(sorted);
-			console.log('Pair returned from get a pair:', pair);
+			// TODO: loop through, find pair, remove from queue, start again until no more pairs, been more than 5 seconds, or queue is empty
+			const start = Date.now();
+			while (Date.now() - start < 5000 && sorted.length > 2) {
+				const pair = getAPair(sorted);
 
-			// Looping through sorted tokens to find pair with closest percentage
+				if (pair !== undefined) {
+					// TODO: remove from redis queue
 
-			const channel = await ctx.hop.channels.create(ChannelType.PRIVATE);
+					// TODO: start a channel, put users in and force them to be friends
+					const channel = await ctx.hop.channels.create(ChannelType.PRIVATE);
+					await channel.subscribeTokens(pair.map(p => p.token));
+					// I think this is how this works but idk lol
 
-			await channel.subscribeTokens([]);
+					pair.forEach(member => {
+						sorted.splice(sorted.indexOf(member), 1);
+					});
+				}
+			}
+			console.log(
+				`Ran through queue enough times for this request due to ${
+					sorted.length > 2 ? 'time expiring' : 'not enough members in queue'
+				}, returning`,
+			);
 
 			return;
 		}
