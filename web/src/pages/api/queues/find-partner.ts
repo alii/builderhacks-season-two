@@ -40,11 +40,18 @@ export default api({
 
 			const tokens = await ctx.redis.getFindPartnerQueue();
 
-			const sorted = tokens.sort((a, b) => b.percentage - a.percentage);
+			// randomly switch between sorting from low to high and high to low so that users at one end don't get screwed with loading times
+			const sorted = tokens.sort((a, b) =>
+				Math.floor(Math.random() * 2) === 1
+					? b.percentage - a.percentage
+					: a.percentage - b.percentage,
+			);
 
-			// TODO: loop through, find pair, remove from queue, start again until no more pairs, been more than 5 seconds, or queue is empty
-			const start = Date.now();
-			while (Date.now() - start < 5000 && sorted.length > 1) {
+			for (let loops = 0; loops < Math.min(sorted.length - 1, 10); loops++) {
+				if (sorted.length < 2) {
+					break;
+				}
+
 				const pair = getAPair(sorted);
 
 				if (pair !== undefined) {
@@ -125,10 +132,6 @@ function getAPair(arr: QueueMember[]): [QueueMember, QueueMember] | undefined {
 			return pair;
 		}
 	}
-
-	const [lower, mid, higher] = arr;
-
-	return getClosest(lower, mid, higher);
 }
 
 function getClosest(
