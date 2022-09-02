@@ -63,10 +63,13 @@ export default api({
 					pair[1].token,
 				);
 
-				const channel = await ctx.hop.channels.create(ChannelType.PRIVATE);
-				await channel.subscribeTokens(pair.map(p => p.token));
-
-				console.log('Created channel:', channel.id, 'with users: ', pair);
+				for (const {token} of pair) {
+					await ctx.utils.hop.publishDirectMessage(
+						token,
+						'PARTNER_FOUND',
+						null,
+					);
+				}
 
 				// I think this is how this works but idk lol
 				pair.forEach(member => {

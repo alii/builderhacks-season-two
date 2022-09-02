@@ -2,7 +2,7 @@ export interface ChannelEvents {
 	/**
 	 * Emitted when you have found a partner
 	 */
-	PARTNER_FOUND: string;
+	PARTNER_FOUND: null;
 
 	/**
 	 * Emitted when your partner has updated their battery percentage
