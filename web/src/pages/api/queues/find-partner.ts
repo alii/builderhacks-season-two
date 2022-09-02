@@ -60,13 +60,19 @@ type queueMember = {token: `leap_token_${string}`; percentage: number};
 
 function getAPair(arr: queueMember[]): [queueMember, queueMember] | undefined {
 	if (arr.length < 2) {
+		console.log('Queue length is less than 2, returning undefined');
 		return undefined;
 	}
 
-	for (let i = 1; i < arr.length; i++) {
+	if (arr.length === 2) {
+		console.log('Queue length is 2, returning pair if valid');
+		return isValidPair(arr[0], arr[1]) ? [arr[0], arr[1]] : undefined;
+	}
+
+	for (let i = 1; i < arr.length - 1; i++) {
 		const pair = getClosest(arr[0], arr[i], arr[i + 1]);
 		if (pair !== undefined) {
-			console.log('Found pair:', pair);
+			console.log('Found pair within queue:', pair);
 			return pair;
 		}
 	}
