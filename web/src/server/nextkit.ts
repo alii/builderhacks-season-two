@@ -1,5 +1,5 @@
-import {Id} from '@onehop/js';
-import createAPI from 'nextkit';
+import {Id, validateId} from '@onehop/js';
+import createAPI, {NextkitError} from 'nextkit';
 import {chunk} from '../utils/arrays';
 import {hop, publishDirectMessage, publishMessage} from './hop';
 import {redis} from './redis';
@@ -9,7 +9,7 @@ export enum RedisKeys {
 }
 
 export const api = createAPI({
-	async getContext() {
+	async getContext(req) {
 		return {
 			hop,
 
@@ -18,6 +18,20 @@ export const api = createAPI({
 					publishMessage,
 					publishDirectMessage,
 				},
+			},
+
+			getLeapToken() {
+				const token = req.headers.authorization;
+
+				if (!token) {
+					throw new Error('You have not authorized!');
+				}
+
+				if (!validateId(token, 'leap_token')) {
+					throw new NextkitError(401, 'Invalid leap token');
+				}
+
+				return token;
 			},
 
 			redis: {

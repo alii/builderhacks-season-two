@@ -36,8 +36,16 @@ export default api({
 			const channel = await ctx.hop.channels.create(ChannelType.PRIVATE);
 
 			await channel.subscribeTokens([]);
+
+			return;
 		}
 
-		//
+		if (body.type === 'enqueue') {
+			return;
+		}
+
+		if (body.type === 'dequeue') {
+			return;
+		}
 	},
 });
