@@ -19,3 +19,33 @@ Made by Alistair Smith + Alfie Ranstead
 11. If you are not friends, you can now be enemies with that person
 12. If you are not friends, you can now be enemies with that person
 13. If you are not friends, you can now be enemies with that person
+
+## How to contribute
+1. Fork the repo
+2. Make your changes
+3. Make a pull request
+4. Wait for the pull request to be merged
+5. Celebrate
+6. Celebrate
+7. Celebrate
+
+## How to run the app
+1. Clone the repo
+2. Open the project in Android Studio
+3. Run the app
+4. Celebrate
+5. Celebrate
+6. Celebrate
+
+## How to run the tests
+1. Clone the repo
+2. Open the project in Android Studio
+3. Run the tests
+4. Celebrate
+5. Celebrate
+6. Celebrate
+
+# WARNING
+This app is not responsible for any damage caused to your friendships. If you are not friends with someone, it is not the app's fault. It is your fault for not being friends with that person. If you are not friends with someone, you can now be enemies with that person.
+
+(This readme was written almost entirely by github copilot and does not reflect the views of the authors)
