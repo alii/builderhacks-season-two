@@ -5,6 +5,23 @@ __metadata:
   version: 6
   cacheKey: 8
 
+"@longdistance/web@workspace:web":
+  version: 0.0.0-use.local
+  resolution: "@longdistance/web@workspace:web"
+  dependencies:
+    "@onehop/client": ^1.3.13
+    "@onehop/js": ^1.3.14
+    "@onehop/react": ^1.3.13
+    "@types/node": ^18.7.14
+    "@types/react": ^18.0.18
+    "@types/react-dom": ^18.0.6
+    next: ^12.2.5
+    react: ^18.2.0
+    react-dom: ^18.2.0
+    typescript: ^4.8.2
+  languageName: unknown
+  linkType: soft
+
 "@next/env@npm:12.2.5":
   version: 12.2.5
   resolution: "@next/env@npm:12.2.5"
@@ -205,12 +222,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"builderhacks-season-two@workspace:.":
-  version: 0.0.0-use.local
-  resolution: "builderhacks-season-two@workspace:."
-  languageName: unknown
-  linkType: soft
-
 "caniuse-lite@npm:^1.0.30001332":
   version: 1.0.30001388
   resolution: "caniuse-lite@npm:1.0.30001388"
@@ -255,6 +266,12 @@ __metadata:
   checksum: 8a95213a5a77deb6cbe94d86340e8d9ace2b93bc367790b260101d2f36a2eaf4e4e22d9fa9cf459b38af3a32fb4190e638024cf82ec95ef708680e405ea7cc78
   languageName: node
   linkType: hard
+
+"longdistance@workspace:.":
+  version: 0.0.0-use.local
+  resolution: "longdistance@workspace:."
+  languageName: unknown
+  linkType: soft
 
 "loose-envify@npm:^1.1.0":
   version: 1.4.0
@@ -470,23 +487,6 @@ __metadata:
   checksum: 5c639e0f8da3521d605f59ce5be9e094ca772bd44a4ce7322b055a6f58eeed8dda3c94cabd90c7a41fb6fa852210092008afe48f7038792fd47501f33299116a
   languageName: node
   linkType: hard
-
-"web@workspace:web":
-  version: 0.0.0-use.local
-  resolution: "web@workspace:web"
-  dependencies:
-    "@onehop/client": ^1.3.13
-    "@onehop/js": ^1.3.14
-    "@onehop/react": ^1.3.13
-    "@types/node": ^18.7.14
-    "@types/react": ^18.0.18
-    "@types/react-dom": ^18.0.6
-    next: ^12.2.5
-    react: ^18.2.0
-    react-dom: ^18.2.0
-    typescript: ^4.8.2
-  languageName: unknown
-  linkType: soft
 
 "webidl-conversions@npm:^3.0.0":
   version: 3.0.1

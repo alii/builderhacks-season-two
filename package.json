@@ -1,7 +1,5 @@
 {
-	"name": "builderhacks-season-two",
-	"version": "1.0.0",
-	"main": "index.js",
+	"name": "longdistance",
 	"repository": "git@github.com:alii/builderhacks-season-two.git",
 	"author": "Alistair Smith <hi@alistair.sh>",
 	"license": "MIT",

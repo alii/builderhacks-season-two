@@ -1,5 +1,5 @@
 {
-	"name": "web",
+	"name": "@longdistance/web",
 	"packageManager": "yarn@3.2.3",
 	"scripts": {
 		"dev": "next",
