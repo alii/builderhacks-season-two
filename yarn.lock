@@ -28,7 +28,7 @@ __metadata:
     cookie: ^0.5.0
     envsafe: ^2.0.3
     es-urlcat: ^1.0.0
-    lowcake: ^1.0.6
+    lowcake: ^1.1.0
     next: ^12.2.5
     nextkit: ^3.4.3
     postcss: ^8.4.16
@@ -1155,10 +1155,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"lowcake@npm:^1.0.6":
-  version: 1.0.6
-  resolution: "lowcake@npm:1.0.6"
-  checksum: d7cfab7e3cdf64fc740d670377f31cfb6a32908715ba84c6f4aa4a046a6ce0c885d2f18401573b147480b79032361ae8cbb778c2a309769c88668d30beea2fd2
+"lowcake@npm:^1.1.0":
+  version: 1.1.0
+  resolution: "lowcake@npm:1.1.0"
+  checksum: 7be5be48343bf7e8203e71a5c25fcd1845505a7d3a4af8c82cea2d4a08f6abf42eb7b13df50a936777419d028fa77ce0ad9b3d9d965d4d06dc9a2ada7ddb85ff
   languageName: node
   linkType: hard
 

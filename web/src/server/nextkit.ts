@@ -1,5 +1,5 @@
 import {Id, validateId} from '@onehop/js';
-import createAPI, {NextkitError} from 'nextkit';
+import {NextkitError, default as createAPI} from 'nextkit';
 import {chunk} from '../utils/arrays';
 import {hop, publishDirectMessage, publishMessage} from './hop';
 import {lowcake} from './lowcake';

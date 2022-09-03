@@ -18,9 +18,15 @@ export interface ChannelEvents {
 		| {
 				type: 'user';
 				content: string;
+				author: string;
 		  }
 		| {
 				type: 'system';
 				content: string;
 		  };
 }
+
+export type Message = Omit<
+	Extract<ChannelEvents['CHAT_EVENT'], {type: 'user'}>,
+	'type'
+>;

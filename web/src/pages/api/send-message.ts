@@ -25,10 +25,13 @@ export default api({
 			' with content ',
 			body.content,
 		);
+
 		await ctx.utils.hop.publishDirectMessage(talkingTo, 'CHAT_EVENT', {
 			type: 'user',
 			content: body.content,
+			author: 'lmfao',
 		});
+
 		console.log('finished sending message');
 	},
 });

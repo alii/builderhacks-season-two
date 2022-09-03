@@ -1,15 +1,15 @@
 import {useState} from 'react';
 import {fetcher} from '../client/fetcher';
 import {useDirectMessage} from '@onehop/react';
+import {Message} from 'types';
 
 export default function Chat() {
 	const [newMessage, setNewMessage] = useState('');
-	const [messages, setMessages] = useState<{author: string; content: string}[]>(
-		[],
-	);
+	const [messages, setMessages] = useState<Message[]>([]);
 
-	useDirectMessage('CHAT_EVENT', msg => {
+	useDirectMessage<Message>('CHAT_EVENT', msg => {
 		console.log('Received message: ', msg);
+
 		setMessages(messages => [
 			...messages,
 			{author: 'other person', content: msg.content},
@@ -21,6 +21,7 @@ export default function Chat() {
 			...messages,
 			{author: 'you', content: newMessage},
 		]);
+
 		await fetcher('/api/send-message', {
 			method: 'POST',
 			body: {content: newMessage},
