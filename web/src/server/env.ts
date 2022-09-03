@@ -17,14 +17,14 @@ const hopProjectID = makeValidator<Id<'project'>>(value => {
 	return value;
 });
 
-export const env = envsafe({
+const {NEXT_PUBLIC_HOP_PROJECT_ID, ...env} = envsafe({
 	QUEUE_SECRET: str(),
 
 	UPSTASH_REDIS_REST_URL: url(),
 	UPSTASH_REDIS_REST_TOKEN: str(),
 
 	HOP_API_TOKEN: hopAPIAuthentication(),
-	HOP_PROJECT_ID: hopProjectID({
+	NEXT_PUBLIC_HOP_PROJECT_ID: hopProjectID({
 		default: 'project_NTAzMjYzNTY5MDg2MjYzMzI',
 	}),
 
@@ -38,3 +38,12 @@ export const env = envsafe({
 		default: 'queue_ODg3NjIwNjY5NzM3NzM4Mjg',
 	}),
 });
+
+const merged = {
+	...env,
+	HOP_PROJECT_ID: NEXT_PUBLIC_HOP_PROJECT_ID,
+};
+
+const readonly = merged as Readonly<typeof merged>;
+
+export {readonly as env};

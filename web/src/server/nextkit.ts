@@ -40,7 +40,7 @@ export const api = createAPI({
 				},
 			},
 
-			async createSession() {
+			async createSession(percentage: number) {
 				const token = await hop.channels.tokens.create({});
 
 				res.setHeader(
@@ -52,6 +52,11 @@ export const api = createAPI({
 						sameSite: req.headers.host === 'localhost:3000' ? 'none' : 'strict',
 					}),
 				);
+
+				await redis.zadd(RedisKeys.FindPartnerQueue, {
+					member: token.id,
+					score: percentage,
+				});
 			},
 
 			async getToken() {
