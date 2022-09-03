@@ -10,12 +10,8 @@ export default function IndexPage() {
 
 		void navigator
 			.getBattery()
-			.then(battery => {
-				return battery.level * 100;
-			})
-			.then(percentage => {
-				setPercentage(percentage);
-			});
+			.then(battery => battery.level * 100)
+			.then(setPercentage);
 	}, []);
 
 	return (

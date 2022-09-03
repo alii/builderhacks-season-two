@@ -60,7 +60,7 @@ export const api = createAPI({
 			},
 
 			async getToken() {
-				const {token} = req.cookies;
+				const {session: token} = req.cookies;
 
 				if (!token) {
 					throw new NextkitError(401, 'Missing session');

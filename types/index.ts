@@ -13,4 +13,14 @@ export interface ChannelEvents {
 	 * Emitted when a pair's battery percentages become invalid
 	 */
 	PAIR_BATTERY_INVALID: null;
+
+	CHAT_EVENT:
+		| {
+				type: 'user';
+				content: string;
+		  }
+		| {
+				type: 'system';
+				content: string;
+		  };
 }
