@@ -1,50 +1,63 @@
 import {useState} from 'react';
 import {fetcher} from '../client/fetcher';
 import {useDirectMessage} from '@onehop/react';
-import {useQuery} from '../hooks/query';
-import LeapAPI from './api/leap';
 
 export default function Chat() {
-	const {data: token} = useQuery<typeof LeapAPI>('/api/leap');
-	const [message, setMessage] = useState('');
-	const [messages, setMessages] = useState<string[]>([]);
-
-	const user_token = token?.id || '';
-	console.log('receiving messages as token: ', user_token);
+	const [newMessage, setNewMessage] = useState('');
+	const [messages, setMessages] = useState<{author: string; content: string}[]>(
+		[],
+	);
 
 	useDirectMessage('CHAT_EVENT', msg => {
 		console.log('Received message: ', msg);
-		setMessages([...messages, msg.content]);
+		setMessages([...messages, {author: 'other person', content: msg.content}]);
 	});
+
+	async function sendMessage() {
+		setMessages([...messages, {author: 'you', content: newMessage}]);
+		await fetcher('/api/send-message', {
+			method: 'POST',
+			body: {content: newMessage},
+		});
+	}
 
 	return (
 		<div className={'p-3'}>
 			<div>
 				<input
 					type="text"
-					value={message}
+					value={newMessage}
 					placeholder="Message"
-					onChange={e => setMessage(e.target.value)}
+					onChange={e => setNewMessage(e.target.value)}
 				/>
 
 				<button
 					type="button"
 					onClick={async e => {
 						e.preventDefault();
-
-						await fetcher('/api/send-message', {
-							method: 'POST',
-							body: {content: message},
-						});
+						sendMessage().catch(console.error);
 					}}
 				>
 					send
 				</button>
 			</div>
-			<div>
-				{messages.map((message, index) => (
-					<div key={index}>{message}</div>
-				))}
+			<div className={'mt-2'}>
+				{messages.length > 0 ? (
+					<div>
+						<p className={'font-bold'}>Messages:</p>
+						{messages.map((message, index) => (
+							<div key={index} className={'flex'}>
+								<p className={'inline-block font-semibold'}>
+									{message.author}
+									{':'}
+								</p>
+								<p className={'inline-block ml-1'}>{message.content}</p>
+							</div>
+						))}
+					</div>
+				) : (
+					<p>No messages yet</p>
+				)}
 			</div>
 		</div>
 	);
