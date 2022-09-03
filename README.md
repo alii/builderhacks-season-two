@@ -3,7 +3,7 @@ You are only allowed to be friends with people who are within 5% battery percent
 
 In this world where everyone is trying to be inclusive we want to bring some completely unneeded change and make sure that you are only friends with people who are within 5% battery percentage of you. This is a simple app that will allow you to see the battery percentage of your friends and only be friends with people who are within 5% of you.
 
-Made by Alistair Smith + Alfie Ranstead
+Made by [Alistair Smith](https://github.com/alii) + [Alfie Ranstead](https://github.com/AlfieRan)
 
 ## How to use
 1. Download the app
