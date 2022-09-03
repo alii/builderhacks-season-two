@@ -5,6 +5,7 @@ import {hop, publishDirectMessage, publishMessage} from './hop';
 import {lowcake} from './lowcake';
 import {redis} from './redis';
 import {serialize} from 'cookie';
+import {z} from 'zod';
 
 export const RedisKeys = {
 	FindPartnerQueue: 'find-partner-queue',
@@ -154,6 +155,13 @@ export const api = createAPI({
 	},
 
 	async onError(req, res, error) {
+		if (error instanceof z.ZodError) {
+			return {
+				status: 400,
+				message: error.message,
+			};
+		}
+
 		return {
 			status: 500,
 			message: error.message,
