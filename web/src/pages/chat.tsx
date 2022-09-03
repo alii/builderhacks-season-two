@@ -10,11 +10,17 @@ export default function Chat() {
 
 	useDirectMessage('CHAT_EVENT', msg => {
 		console.log('Received message: ', msg);
-		setMessages([...messages, {author: 'other person', content: msg.content}]);
+		setMessages(messages => [
+			...messages,
+			{author: 'other person', content: msg.content},
+		]);
 	});
 
 	async function sendMessage() {
-		setMessages([...messages, {author: 'you', content: newMessage}]);
+		setMessages(messages => [
+			...messages,
+			{author: 'you', content: newMessage},
+		]);
 		await fetcher('/api/send-message', {
 			method: 'POST',
 			body: {content: newMessage},
