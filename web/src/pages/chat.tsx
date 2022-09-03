@@ -5,7 +5,7 @@ export default function Chat() {
 	const [message, setMessage] = useState('');
 
 	return (
-		<div>
+		<div className={'p-3'}>
 			<input
 				type="text"
 				value={message}

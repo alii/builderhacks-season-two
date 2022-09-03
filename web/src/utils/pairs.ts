@@ -1,7 +1,9 @@
 import {env} from '../server/env';
 
-export function isValidPair(a: QueueMember, b: QueueMember) {
-	return Math.abs(a.percentage - b.percentage) < env.PERCENTAGE_RANGE;
+export function isValidPair(a: QueueMember, b: QueueMember): boolean {
+	const isValid = Math.abs(a.percentage - b.percentage) < env.PERCENTAGE_RANGE;
+	console.log('isValidPair', a.percentage, b.percentage, isValid);
+	return isValid;
 }
 
 export type QueueMember = {token: `leap_token_${string}`; percentage: number};
@@ -21,6 +23,7 @@ export function getAPair(
 
 	for (let i = 1; i < arr.length - 1; i++) {
 		const pair = getClosest(arr[0], arr[i], arr[i + 1]);
+		console.log('Got closest pair: ', pair);
 
 		if (pair !== undefined) {
 			console.log('Found pair within queue:', pair);
@@ -34,9 +37,12 @@ export function getClosest(
 	mid: QueueMember,
 	higher: QueueMember,
 ): [QueueMember, QueueMember] | undefined {
+	console.log('trio sorted: ', [lower, mid, higher]);
 	if (mid.percentage - lower.percentage < higher.percentage - mid.percentage) {
+		console.log('lower is closer, checking if valid');
 		return isValidPair(lower, mid) ? [lower, mid] : undefined;
 	} else {
+		console.log('higher is closer, checking if valid');
 		return isValidPair(mid, higher) ? [lower, mid] : undefined;
 	}
 }

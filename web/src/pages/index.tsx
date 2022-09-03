@@ -15,7 +15,7 @@ export default function IndexPage() {
 	}, []);
 
 	return (
-		<form action="/api/queues/find-partner" method="POST">
+		<form className={'p-3'} action="/api/queues/find-partner" method="POST">
 			<button type="submit">join queue</button>
 			<input type="hidden" name="percentage" value={percentage} />
 		</form>

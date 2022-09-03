@@ -31,6 +31,7 @@ export default api({
 
 	async POST({req, ctx}) {
 		const body = schema.parse(req.body);
+		console.log('Received a call to find partners in the queue.');
 
 		if (
 			(body.type === 'invocate' && body.secret !== env.QUEUE_SECRET) ||
@@ -39,9 +40,11 @@ export default api({
 		) {
 			throw new NextkitError(401, 'Invalid secret');
 		}
+		console.log('Secret is valid, continuing to find partners.');
 
 		if (body.type === 'invocate') {
 			const tokens = await ctx.redis.getFindPartnerQueue();
+			console.log('Found tokens in the queue: ', tokens);
 
 			// randomly switch between sorting from low to high and high to low so that users at one end don't get screwed with loading times
 			const sorted = tokens.sort((a, b) =>
@@ -50,12 +53,19 @@ export default api({
 					: a.percentage - b.percentage,
 			);
 
+			console.log('Sorting through queue members');
 			for (let loops = 0; loops < Math.min(sorted.length - 1, 10); loops++) {
 				if (sorted.length < 2) {
 					break;
 				}
 
 				const pair = getAPair(sorted);
+				console.log(
+					pair === undefined
+						? 'no pairs found in queue'
+						: 'Found a pair within queue: ',
+					pair,
+				);
 
 				if (!pair) {
 					continue;
@@ -65,26 +75,34 @@ export default api({
 					pair[0].token,
 					pair[1].token,
 				);
+				console.log('Removed pair from queue');
 
 				await ctx.talkingTo.set(pair[0].token, pair[1].token);
+				console.log('Set talkingTo for both users');
 
-				for (const {token} of pair) {
-					await ctx.utils.hop.publishDirectMessage(
-						token,
-						'PARTNER_FOUND',
-						null,
-					);
+				try {
+					for (const {token} of pair) {
+						await ctx.utils.hop.publishDirectMessage(
+							token,
+							'PARTNER_FOUND',
+							null,
+						);
+					}
+					console.log('Sent partner found messages to both users through hop');
+				} catch (err) {
+					console.error(err);
 				}
 
 				// I think this is how this works but idk lol
 				pair.forEach(member => {
 					sorted.splice(sorted.indexOf(member), 1);
 				});
+				console.log('Removed pair from sorted array');
 			}
 
 			console.log(
 				`Ran through queue enough times for this request due to ${
-					sorted.length > 2 ? 'time expiring' : 'not enough members in queue'
+					sorted.length > 2 ? 'loops expiring' : 'not enough members in queue'
 				}, returning`,
 			);
 

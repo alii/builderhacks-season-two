@@ -7,6 +7,16 @@ import {useRouter} from 'next/router';
 
 import {ChannelEvents} from 'types';
 
+const defaultLayout = (state: JSX.Element) => (
+	<div className={'p-3'}>
+		<h1 className={'font-bold'}>Queue tings and that</h1>
+		{state}
+		<div className={'mt-3'}>
+			<a href={'/'}>Leave Queue</a>
+		</div>
+	</div>
+);
+
 export default function QueuePage() {
 	const connectionState = useConnectionState();
 	const router = useRouter();
@@ -19,8 +29,8 @@ export default function QueuePage() {
 	);
 
 	if (connectionState !== ConnectionState.CONNECTED) {
-		return <p>{connectionState}</p>;
+		return defaultLayout(<p>{connectionState}</p>);
 	}
 
-	return <div>Finding you a match...</div>;
+	return defaultLayout(<div>Finding you a match...</div>);
 }
