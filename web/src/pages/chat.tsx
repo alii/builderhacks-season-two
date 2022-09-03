@@ -18,9 +18,14 @@ export default function Chat() {
 				onClick={async e => {
 					e.preventDefault();
 
-					await fetcher('/api/send-message');
+					await fetcher('/api/send-message', {
+						method: 'POST',
+						body: {content: message},
+					});
 				}}
-			></button>
+			>
+				send
+			</button>
 		</div>
 	);
 }
