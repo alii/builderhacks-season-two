@@ -80,18 +80,11 @@ export default api({
 				await ctx.talkingTo.set(pair[0].token, pair[1].token);
 				console.log('Set talkingTo for both users');
 
-				try {
-					for (const {token} of pair) {
-						await ctx.utils.hop.publishDirectMessage(
-							token,
-							'PARTNER_FOUND',
-							null,
-						);
-					}
-					console.log('Sent partner found messages to both users through hop');
-				} catch (err) {
-					console.error(err);
+				// TODO - remove try catch when finished testing
+				for (const {token} of pair) {
+					await ctx.utils.hop.publishDirectMessage(token, 'PARTNER_FOUND', {});
 				}
+				console.log('Sent partner found messages to both users through hop');
 
 				// I think this is how this works but idk lol
 				pair.forEach(member => {
