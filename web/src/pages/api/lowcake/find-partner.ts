@@ -1,15 +1,16 @@
-import {NextApiRequest, NextApiResponse} from 'next';
 import {env} from '../../../server/env';
 import {queue} from '../../../server/lowcake';
 import {getContext} from '../../../server/nextkit';
 import {getAPair} from '../../../utils/pairs';
 
-const run = queue(
+export default queue(
 	env.LOWCAKE_QUEUE_ID,
 	{
+		id: 'job_ODk0MTEwNjAyNjM1NzU1NTM',
+		override: true,
 		url: 'https://staywithme.hop.sh/api/lowcake/find-partner',
 		retry: [],
-		exclusive: true,
+		exclusive: false,
 		schedule: {
 			type: 'every',
 			meta: (5 * 1000).toString(),
@@ -74,8 +75,3 @@ const run = queue(
 		return;
 	},
 );
-
-export default (req: NextApiRequest, res: NextApiResponse) => {
-	console.log(req.body);
-	return run(req, res);
-};
